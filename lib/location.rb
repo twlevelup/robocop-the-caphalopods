@@ -1,4 +1,4 @@
-class Locations
+class Location
 
   # THE HODDLE (CBD) GRID
   # See Wikipedia: https://

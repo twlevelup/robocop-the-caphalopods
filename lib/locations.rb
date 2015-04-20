@@ -1,61 +1,71 @@
 class Locations
-	
-	def initialize()
-		@east_west_streets = 
-		[
-			'Flinder St',
-			'Flinders Lane',
-			'Collins St',
-			'Little Collins St',
-			'Little Bourke St',
-			'Bourke St',
-			'Lonsdale St',
-			'Little Lonsdale St',
-			'La Trobe St'
-		]
 
-	@north_south_streets = 
-		[
-			'Spencer St',
-			'King St',
-			'William St',
-			'Market St',
-			'Queen St',
-			'Elizabeth St',
-			'Swanston St',
-			'Russell St',
-			'Exhibition St',
-			'Spring St'
-		]
-		
-	@north_boundary = @east_west_streets.count - 1
-	@south_boundary = 0
+  # THE HODDLE (CBD) GRID
+  # See Wikipedia: https://
 
-	end
+  # Note: South-west corner = (0,0)
 
-	def getIntersection(x, y)
-		return "Intersection of {@hor.at(x)} and {@ver.at(y)}"
-	end
+  EAST_WEST_STREETS = [
+          'Flinders Street',
+          'Flinders Lane',
+          'Collins Street',
+          'Little Collins Street',
+          'Little Bourke Street',
+          'Bourke Street',
+          'Lonsdale Street',
+          'Little Lonsdale Street',
+          'La Trobe Street' ]
 
-	def getStreetNames(x, y)
+  NORTH_SOUTH_STREETS = [
+          'Spencer Street',
+          'King Street',
+          'William Street',
+          'Market Street',
+          'Queen Street',
+          'Elizabeth Street',
+          'Swanston Street',
+          'Russell Street',
+          'Exhibition Street',
+          'Spring Street' ]
 
-	end 
+  SOUTH_BOUNDARY = 0
+  WEST_BOUNDARY  = 0
+  NORTH_BOUNDARY = EAST_WEST_STREETS.count - 1
+  EAST_BOUNDARY  = NORTH_SOUTH_STREETS.count - 1
 
-	def within_CBD?(x, y)
-		puts "y = #{y}"
-		puts "max_y = #{@max_y}"
+  def within_CBD?(y, x)
 
 		result = true
 
-		if y > @north_boundary
-			result = false
-		end
-		
-		if y < @south_boundary
-			result = false
-		end
+		if (y > NORTH_BOUNDARY || y < SOUTH_BOUNDARY ||
+        x > EAST_BOUNDARY  || x < WEST_BOUNDARY)
+      result = false
+    end
 
-		return result
+    return result
 	end
+
+  # takes grid co-ordinates; returns street names
+  def street_names(y, x)
+
+    return false if within_CBD?(y, x) == false
+
+    # return location as two strings (leave
+    # any string formatting to the caller...)
+    return [EAST_WEST_STREETS[y], NORTH_SOUTH_STREETS[x]]
+
+  end
+
+  # Takes street names; returns grid co-ordinates
+  def grid_coordinates(y_streetname, x_streetname)
+
+    y = EAST_WEST_STREETS.find_index(y_streetname)
+    x = NORTH_SOUTH_STREETS.find_index(x_streetname)
+
+    return false if (y == nil || x == nil)
+
+    return [y, x]
+
+  end
 
 end

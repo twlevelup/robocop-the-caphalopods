@@ -28,10 +28,13 @@ class Location
           'Exhibition Street',
           'Spring Street' ]
 
-  SOUTH_BOUNDARY = 0
-  WEST_BOUNDARY  = 0
-  NORTH_BOUNDARY = EAST_WEST_STREETS.count - 1
-  EAST_BOUNDARY  = NORTH_SOUTH_STREETS.count - 1
+  SOUTH_BOUNDARY  = 0
+  WEST_BOUNDARY   = 0
+  NORTH_BOUNDARY  = EAST_WEST_STREETS.count - 1
+  EAST_BOUNDARY   = NORTH_SOUTH_STREETS.count - 1
+
+  CBD_GRID_WIDTH  = NORTH_SOUTH_STREETS.count
+  CBD_GRID_HEIGHT = EAST_WEST_STREETS.count
 
   def within_CBD?(y, x)
 
@@ -45,7 +48,7 @@ class Location
     return result
 	end
 
-  # takes grid co-ordinates; returns street names
+  # takes a grid position - returns street names:
   def street_names(y, x)
 
     return false if within_CBD?(y, x) == false
@@ -56,7 +59,7 @@ class Location
 
   end
 
-  # Takes street names; returns grid co-ordinates
+  # takes street names - returns a grid position
   def grid_coordinates(y_streetname, x_streetname)
 
     y = EAST_WEST_STREETS.find_index(y_streetname)

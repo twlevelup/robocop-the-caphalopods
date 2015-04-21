@@ -1,91 +1,114 @@
 require 'robocop'
+require 'location'
 
 RSpec.describe Robocop do
   let(:d) {Robocop.new}
 
-  it "should beep" do
-    expect(d.beep).to eq('beep boop')
-  end
+  context "robocop has some default attributes at instance creation" do
 
-  it "can move forward" do
-    expect(d.can_move_forward?).to eq(true)
-  end
+    it "has a default orientation" do
+      expect(d.orientation).to eq(:north)
+    end
 
-  it "moves north if facing north" do
-    old_position = d.get_position
-    orientation = d.get_heading
-    if orientation == :north
-      d.move_forward
-      expect(d.get_position[1]).to eq(old_position[1] + 1)
-      expect(d.get_position[0]).to eq(old_position[0])
+    it "has a default position" do
+      expect(d.position).to eq({ :y => 0, :x => 0})
     end
 
   end
 
-  it "moves south if facing south" do
-    old_position = d.get_position
-    orientation = d.get_heading
-    if orientation == :south
-      d.move_forward
-      expect(d.get_position[1]).to eq(old_position[1] - 1)
-      expect(d.get_position[0]).to eq(old_position[0])
+  context "you can set robocop's orientation..." do
+
+    it "to :north" do
+      d.orientation = :north
+      expect(d.orientation).to eq(:north)
+    end
+
+    it "to :south" do
+      d.orientation = :south
+      expect(d.orientation).to eq(:south)
+    end
+
+    it "to :east" do
+      d.orientation = :east
+      expect(d.orientation).to eq(:east)
+    end
+
+    it "to :west" do
+      d.orientation = :west
+      expect(d.orientation).to eq(:west)
+    end
+
+    it "orientation won't change if unrecognised orientation is given (e.g., :down)" do
+      d.orientation = :west
+      expect(d.orientation).to eq(:west)
+      d.orientation = :down
+      expect(d.orientation).to eq(:west)
     end
 
   end
 
-  it "moves east if facing east" do
-    old_position = d.get_position
-    orientation = d.get_heading
-    if orientation == :east
-      d.move_forward
-      expect(d.get_position[1]).to eq(old_position[1])
-      expect(d.get_position[0]).to eq(old_position[0] - 1)
+  context "robocop can move..." do
+
+    it "robocop can move forward" do
+      expect(d.can_move_forward?).to eq(true)
     end
 
-  end
-
-  it "moves west if facing west" do
-    old_position = d.get_position
-    orientation = d.get_heading
-    if orientation == :west
+    it "moves north if facing north" do
+      d.orientation = :north
+      old_position = d.position
       d.move_forward
-      expect(d.get_position[1]).to eq(old_position[1])
-      expect(d.get_position[0]).to eq(old_position[0] + 1)
+      expect(d.position[:y]).to eq(old_position[:y] + 1)
+      expect(d.position[:x]).to eq(old_position[:x])
     end
 
+    it "moves south if facing south" do
+      d.orientation = :south
+      d.position = { :y => Location::NORTH_BOUNDARY, :x => Location::WEST_BOUNDARY }
+      old_position = d.position
+      d.move_forward
+      expect(d.position[:y]).to eq(old_position[:y] - 1)
+      expect(d.position[:x]).to eq(old_position[:x])
+    end
+
+    it "moves east if facing east" do
+      d.orientation = :east
+      old_position = d.position
+      d.move_forward
+      expect(d.position[:y]).to eq(old_position[:y])
+      expect(d.position[:x]).to eq(old_position[:x] + 1)
+    end
+
+    it "moves west if facing west" do
+      d.orientation = :west
+      d.position = { :y => Location::SOUTH_BOUNDARY, :x => Location::EAST_BOUNDARY }
+      old_position = d.position
+      d.move_forward
+      expect(d.position[:y]).to eq(old_position[:y])
+      expect(d.position[:x]).to eq(old_position[:x] - 1)
+    end
+
+    # TODO tests for attempting a move outside CBD boundary go here:
+
+
   end
 
-  it "has a heading" do
-    expect(d.get_heading.nil?).to eq(false)
+  context "You can query the street names for robocop's current position" do
+
+    it "should return ['Flinders Street', 'Spencer Street'] at the south-west corner" do
+      expect(d.street_names).to eq(['Flinders Street', 'Spencer Street'])
+    end
+
+    it "should return ['La Trobe Street', 'Spring Street'] at the north-east corner" do
+      d.position = { :y => Location::NORTH_BOUNDARY, :x => Location::EAST_BOUNDARY }
+      expect(d.street_names).to eq(['La Trobe Street', 'Spring Street'])
+    end
+
+end
+
+  context "robocop can do other things..." do
+    it "should beep" do
+      expect(d.beep).to eq('beep boop')
+    end
   end
-
-  it "is facing north" do
-    d.set_heading(:north)
-    expect(d.get_heading).to eq(:north)
-  end
-
-  it "is facing south" do
-    d.set_heading(:south)
-    expect(d.get_heading).to eq(:south)
-  end
-
-  it "is facing west" do
-    d.set_heading(:west)
-    expect(d.get_heading).to eq(:west)
-  end
-
-  it "is facing east" do
-    d.set_heading(:east)
-    expect(d.get_heading).to eq(:east)
-  end
-
-  it "gives a valid position" do
-    expect(d.get_position).to be_a(Array)
-    expect(d.get_position.size).to eq(2)
-    expect(d.get_position.first.is_a?(Numeric))
-    expect(d.get_position.last.is_a?(Numeric))
-  end
-
-
 
 end

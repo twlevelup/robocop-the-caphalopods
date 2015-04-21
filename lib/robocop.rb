@@ -1,72 +1,61 @@
-# Make sure no 'new' headings can be made?
-module Heading
-  :north
-  :south
-  :east
-  :west
-end
+require 'location'
 
 class Robocop
 
-  def initialize()
-    @heading = :north
-    @position = [0, 0]
-  end
+  ORIENTATIONS = [:north, :south, :east, :west]
 
+  def initialize()
+    @cbd = Location.new
+    @orientation = ORIENTATIONS.first
+    @position = { :y => 0, :x => 0}
+  end
 
   def beep
     'beep boop'
   end
 
-  def can_move_forward?
-    true
+  def orientation
+    @orientation
   end
 
-  ##
-  # Assume that the positive second element is north, and positive first element is east.
-  # This deserve refactoring so that it just passes a 'velocity' vector to a general move method.
-  def move_forward
-    old_position = get_position
-    case
-      when @heading == :north
-        set_position(old_position[0], old_position[1]+1)
-      when @heading == :south
-        set_position(old_position[0], old_position[1]-1)
-      when @heading == :east
-        set_position(old_position[0]+1, old_position[1])
-      when @heading == :west
-        set_position(old_position[0]-1, old_position[1])
-    end
-    get_position
+  def orientation=(orientation)
+    return if not ORIENTATIONS.include?(orientation)
+    @orientation = orientation
   end
 
-  def set_heading(headed)
-    @heading = headed
-  end
-
-  def get_heading
-    return @heading
-  end
-
-  def get_position
+  def position
     @position
   end
 
-  def set_position(xy_array)
-    xy_array.is_a?(Array)
-    xy_array.array.size.must_equal(2)
-    xy_array.all? { |i| i.is_a?(Numeric)}
+  def position=(position)
+    @position = position
   end
 
-  def set_position(x_position, y_position)
-    if x_position.is_a?(Numeric) and y_position.is_a?(Numeric)
-      @position = [x_position, y_position]
-      return true
-    else
-      false
-    end
+  def street_names
+    @cbd.street_names(@position[:y], @position[:x])
   end
 
+  def move_to
+    # takes street names, jumps to grid co-ordinate
+  end
 
+  def move_forward
+    self.position = next_position if can_move_forward?
+  end
+
+  def can_move_forward?
+    @cbd.within_CBD?(next_position[:y], next_position[:x])
+  end
+
+  def next_position
+    # Returns expected next position,
+    # but doesn't move the robot yet
+    next_position = case @orientation
+                      when :north then { :y => position[:y]+1, :x => position[:x]   }
+                      when :south then { :y => position[:y]-1, :x => position[:x]   }
+                      when :east  then { :y => position[:y],   :x => position[:x]+1 }
+                      when :west  then { :y => position[:y],   :x => position[:x]-1 }
+                    end
+  end
 
 end

@@ -1,4 +1,5 @@
 require_relative "robocop"
+require 'readline'
 
 class Cli
   def initialize
@@ -11,6 +12,11 @@ class Cli
       puts ""
       print " > "
       STDOUT.flush
+
+      # Suggestion: we could use readline here (can then use cursor
+      # keys to scroll through command history) (returns a nil if
+      # user hits ctrl-D, otherwise returns a string as gets does):
+      #     input = Readline.readline(​" > "​, true)
       input = gets.chomp
 
       if input != ''
@@ -32,7 +38,7 @@ class Cli
   end
 
   def current_status
-    "The robot is at position #{@cop.get_position} facing #{@cop.get_heading}."
+    "The robot is at intersection of #{@cop.street_names} facing #{@cop.orientation}."
   end
 
   def parse_command(command)

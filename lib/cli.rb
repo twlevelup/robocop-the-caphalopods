@@ -38,7 +38,7 @@ class Cli
   end
 
   def current_status
-    "The robot is at intersection of #{@cop.street_names} facing #{@cop.orientation}."
+    "The robot is at intersection of #{@cop.street_names.join(' and ')}, facing #{@cop.orientation}."
   end
 
   def parse_command(command)

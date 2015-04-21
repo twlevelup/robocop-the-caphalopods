@@ -1,4 +1,4 @@
-require 'location'
+require_relative 'location'
 
 class Robocop
 

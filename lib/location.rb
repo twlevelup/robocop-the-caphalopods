@@ -10,8 +10,8 @@ class Location
           'Flinders Lane',
           'Collins Street',
           'Little Collins Street',
-          'Little Bourke Street',
           'Bourke Street',
+          'Little Bourke Street',
           'Lonsdale Street',
           'Little Lonsdale Street',
           'La Trobe Street' ]

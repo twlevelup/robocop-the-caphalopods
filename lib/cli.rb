@@ -35,6 +35,7 @@ class Cli
     puts ""
 
     puts "Enter a command or type enter help for more information"
+    puts current_status
   end
 
   def current_status
@@ -60,7 +61,8 @@ class Cli
       output("Moving cop forward")
       true
     else
-      output("Error: Cannot perform command, move forward, movement is invalid")
+      street_name = @cop.street_names[0]
+      output("Error: Cannot perform command, move forward, movement is beyond the boundary #{street_name}.")
       false
     end
   end

@@ -7,7 +7,7 @@ class Robocop
   def initialize()
     @cbd = Location.new
     @orientation = ORIENTATIONS.first
-    @position = { :y => 0, :x => 0}
+    @position = { :y => 0, :x => 6}
   end
 
   def beep
@@ -40,6 +40,7 @@ class Robocop
   end
 
   def move_forward
+    #raise("Trying to move out of bounds.") if not can_move_forward?
     self.position = next_position if can_move_forward?
   end
 

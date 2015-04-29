@@ -1,13 +1,13 @@
-require_relative 'location'
+require_relative 'melbourne'
 
 class Robocop
 
   ORIENTATIONS = [:north, :south, :east, :west]
+  EMOJIS       = { :north => '^', :south => '^', :east => '>', :west => '<' }
 
   def initialize()
-    @cbd = Location.new
     @orientation = ORIENTATIONS.first
-    @position = { :y => 0, :x => 6}
+    @position    = Melbourne::position(:y => 'Flinders Street', :x => 'Swanston Street')
   end
 
   def beep
@@ -19,8 +19,7 @@ class Robocop
   end
 
   def orientation=(orientation)
-    return if not ORIENTATIONS.include?(orientation)
-    @orientation = orientation
+    @orientation = orientation if ORIENTATIONS.include?(orientation)
   end
 
   def position
@@ -31,32 +30,57 @@ class Robocop
     @position = position
   end
 
-  def street_names
-    @cbd.street_names(@position[:y], @position[:x])
+  def streets
+    Melbourne::streets(@position)
   end
 
-  def move_to
-    # takes street names, jumps to grid co-ordinate
+  def parallel_street
+    # Gives name of street robocop is travelling down
+    case orientation
+      when :north, :south then
+        streets[:x]
+      when :east, :west then
+        streets[:y]
+    end
   end
 
-  def move_forward
-    #raise("Trying to move out of bounds.") if not can_move_forward?
-    self.position = next_position if can_move_forward?
+  def perpendicular_street
+    # Gives name of boundary street (when at CBD boundary)
+    case orientation
+      when :north, :south then
+        streets[:y]
+      when :east, :west then
+        streets[:x]
+    end
   end
 
   def can_move_forward?
-    @cbd.within_CBD?(next_position[:y], next_position[:x])
+    Melbourne::within_CBD?(next_position)
   end
+
+  def move_forward!
+    self.position = next_position if can_move_forward?
+  end
+
+  def move_to!
+    # takes street names, jumps to grid co-ordinate
+  end
+
+  private
 
   def next_position
     # Returns expected next position,
-    # but doesn't move the robot yet
-    next_position = case @orientation
-                      when :north then { :y => position[:y]+1, :x => position[:x]   }
-                      when :south then { :y => position[:y]-1, :x => position[:x]   }
-                      when :east  then { :y => position[:y],   :x => position[:x]+1 }
-                      when :west  then { :y => position[:y],   :x => position[:x]-1 }
-                    end
+    # but doesn't move the robot yet:
+    case orientation
+      when :north then
+        {:y => position[:y]+1, :x => position[:x]}
+      when :south then
+        {:y => position[:y]-1, :x => position[:x]}
+      when :east then
+        {:y => position[:y], :x => position[:x]+1}
+      when :west then
+        {:y => position[:y], :x => position[:x]-1}
+    end
   end
 
 end

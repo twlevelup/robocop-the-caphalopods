@@ -18,10 +18,6 @@ class Robocop
     @orientation
   end
 
-  def orientation=(orientation)
-    @orientation = orientation if ORIENTATIONS.include?(orientation)
-  end
-
   def position
     @position
   end

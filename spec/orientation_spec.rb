@@ -9,6 +9,11 @@ RSpec.describe Orientation do
       expect(orientation.current).to eq(:north)
     end
 
+    it "should face east when turned right" do
+      orientation.turn_right!
+      expect(orientation.current).to eq(:east)
+    end
+
   end
 
   context "the orientation is east" do
@@ -16,6 +21,11 @@ RSpec.describe Orientation do
 
     it "should have a current orientation of east" do
       expect(orientation.current).to eq(:east)
+    end
+
+    it "should face south when turned right" do
+      orientation.turn_right!
+      expect(orientation.current).to eq(:south)
     end
   end
 
@@ -25,6 +35,11 @@ RSpec.describe Orientation do
     it "should have a current orientation of south" do
       expect(orientation.current).to eq(:south)
     end
+
+    it "should face west when turned right" do
+      orientation.turn_right!
+      expect(orientation.current).to eq(:west)
+    end
   end
 
   context "the orientation is west" do
@@ -32,6 +47,11 @@ RSpec.describe Orientation do
 
     it "should have a current orientation of west" do
       expect(orientation.current).to eq(:west)
+    end
+
+    it "should face north when turned right" do
+      orientation.turn_right!
+      expect(orientation.current).to eq(:north)
     end
   end
 

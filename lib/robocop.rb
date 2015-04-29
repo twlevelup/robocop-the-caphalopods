@@ -66,6 +66,16 @@ class Robocop
     # takes street names, jumps to grid co-ordinate
   end
 
+  def turn_right!
+    if @orientation == :east
+      @orientation = :south
+    elsif @orientation == :north
+      @orientation = :east
+    elsif @orientation == :south
+      @orientation = :west
+    end
+  end
+
   private
 
   def next_position

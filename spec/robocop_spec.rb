@@ -16,6 +16,37 @@ RSpec.describe Robocop do
 
   end
 
+  context "you can set robocop's orientation..." do
+
+    it "to :north" do
+      subject.orientation = :north
+      expect(subject.orientation).to eq(:north)
+    end
+
+    it "to :south" do
+      subject.orientation = :south
+      expect(subject.orientation).to eq(:south)
+    end
+
+    it "to :east" do
+      subject.orientation = :east
+      expect(subject.orientation).to eq(:east)
+    end
+
+    it "to :west" do
+      subject.orientation = :west
+      expect(subject.orientation).to eq(:west)
+    end
+
+    it "orientation won't change if unrecognised orientation is given (e.g., :down)" do
+      subject.orientation = :west
+      expect(subject.orientation).to eq(:west)
+      subject.orientation = :down
+      expect(subject.orientation).to eq(:west)
+    end
+
+  end
+
   context "robocop can move..." do
 
     it "robocop can move forward" do

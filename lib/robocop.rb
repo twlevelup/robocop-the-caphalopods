@@ -65,6 +65,10 @@ class Robocop
     @orientation.turn_right!
   end
 
+  def turn_left!
+    @orientation.turn_left!
+  end
+
   private
 
   def next_position

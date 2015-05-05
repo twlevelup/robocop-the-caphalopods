@@ -36,4 +36,16 @@ class Orientation
     end
   end
 
+  def turn_left!
+    if @current == :north
+      @current = :west
+    elsif @current == :east
+      @current = :north
+    elsif @current == :south
+      @current = :east
+    elsif @current == :west
+      @current = :south
+    end
+  end
+
 end

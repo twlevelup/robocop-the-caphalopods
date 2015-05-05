@@ -28,10 +28,6 @@ RSpec.describe Robocop do
       expect(robocop.streets).to eq(:y => 'La Trobe Street', :x => 'Spring Street')
     end
 
-    it "should beep boop when asked to beep" do
-      expect(robocop.beep).to eq('beep boop')
-    end
-
   end
 
   context "A new Robocop facing north" do

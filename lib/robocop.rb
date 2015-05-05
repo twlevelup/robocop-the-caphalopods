@@ -8,10 +8,6 @@ class Robocop
     @position    = Melbourne::position(:y => 'Flinders Street', :x => 'Swanston Street')
   end
 
-  def beep
-    'beep boop'
-  end
-
   def orientation
     @orientation.current
   end

@@ -14,8 +14,8 @@ class CLIViewController
       'right'         => :turn_right,
       'r'             => :turn_right,
 
-      'left'          => :turn_left,
-      'l'             => :turn_left,
+      # 'left'          => :turn_left,
+      # 'l'             => :turn_left,
 
       'add'           => :add_robot,
       'a'             => :add_robot,
@@ -28,9 +28,6 @@ class CLIViewController
 
       'status'        => :status,
       's'             => :status,
-
-      'beep'          => :beep,
-      'b'             => :beep,
 
       # TODO add more commands here
   }
@@ -110,8 +107,7 @@ class CLIViewController
     yield "Usage:"
     yield " f)orward, f)orward n - Move robot forward by one (or n) block/s"
     yield " r)ight               - Swivel robot to the right"
-    yield " l)eft                - Swivel robot to the left"
-    yield " b)eep                - Make robot beep"
+    # yield " l)eft                - Swivel robot to the left"
     yield " h)elp                - Display this help text"
     yield " s)tatus              - Display robot status"
     yield " Ctrl-D               - Exit this program"

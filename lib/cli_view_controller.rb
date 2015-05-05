@@ -78,7 +78,8 @@ class CLIViewController
 
   def turn_right(args)
     @cop.turn_right!
-    yield "The robot is now facing #{@cop.orientation}."
+    yield "The robot has turned right."
+    yield "#{_status}"
   end
 
   def turn_left(args)
@@ -123,7 +124,7 @@ class CLIViewController
   private
 
   def _status
-    "The robot is at intersection of #{@cop.streets[:y]} and #{@cop.streets[:x]}, facing #{@cop.orientation}."
+    "The robot is at the intersection of #{@cop.streets[:y]} and #{@cop.streets[:x]}, facing #{@cop.orientation}."
   end
 
 end

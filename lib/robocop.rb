@@ -3,7 +3,6 @@ require_relative 'melbourne'
 class Robocop
 
   ORIENTATIONS = [:north, :south, :east, :west]
-  EMOJIS       = { :north => '^', :south => '^', :east => '>', :west => '<' }
 
   def initialize()
     @orientation = ORIENTATIONS.first
@@ -67,12 +66,26 @@ class Robocop
   end
 
   def turn_right!
-    if @orientation == :east
-      @orientation = :south
-    elsif @orientation == :north
+    if @orientation == :north
       @orientation = :east
+    elsif @orientation == :east
+      @orientation = :south
     elsif @orientation == :south
       @orientation = :west
+    elsif @orientation == :west
+      @orientation = :north
+    end
+  end
+
+  def turn_left!
+    if @orientation == :north
+      @orientation = :west
+    elsif @orientation == :east
+      @orientation = :north
+    elsif @orientation == :south
+      @orientation = :east
+    elsif @orientation == :west
+      @orientation = :south
     end
   end
 
@@ -87,9 +100,9 @@ class Robocop
       when :south then
         {:y => position[:y]-1, :x => position[:x]}
       when :east then
-        {:y => position[:y], :x => position[:x]+1}
+        {:y => position[:y],   :x => position[:x]+1}
       when :west then
-        {:y => position[:y], :x => position[:x]-1}
+        {:y => position[:y],   :x => position[:x]-1}
     end
   end
 

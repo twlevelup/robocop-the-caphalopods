@@ -39,7 +39,7 @@ module Melbourne
     raise 'Missing method parameter/s' unless (position[:y] && position[:x])
 
     if (position[:y] > NORTH_BOUNDARY || position[:y] < SOUTH_BOUNDARY ||
-        position[:x] > EAST_BOUNDARY || position[:x] < WEST_BOUNDARY)
+        position[:x] > EAST_BOUNDARY  || position[:x] < WEST_BOUNDARY)
       return false
     else
       return true

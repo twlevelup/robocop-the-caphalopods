@@ -2,175 +2,132 @@ require 'robocop'
 require 'melbourne'
 
 RSpec.describe Robocop do
-  subject {Robocop.new}
 
-  context "robocop has some default attributes at instance creation" do
+  context "A new Robocop without any arguments" do
 
-    it "has a default orientation" do
-      expect(subject.orientation).to eq(:north)
+    let(:robocop) { Robocop.new }
+
+    it "should be facing north" do
+      expect(robocop.orientation).to eq(:north)
     end
 
-    it "has a default position (corner of Flinders & Swanston Streets)" do
-      expect(subject.position).to eq(Melbourne::position(:y => 'Flinders Street', :x => 'Swanston Street'))
+    it "should be at the corner of Flinders Street and Swanston Street" do
+      expect(robocop.position).to eq(Melbourne::position(:y => 'Flinders Street', :x => 'Swanston Street'))
     end
 
-  end
-
-  context "you can set robocop's orientation..." do
-
-    it "to :north" do
-      subject.orientation = :north
-      expect(subject.orientation).to eq(:north)
+    it "can move forward" do
+      expect(robocop.can_move_forward?).to eq(true)
     end
-
-    it "to :south" do
-      subject.orientation = :south
-      expect(subject.orientation).to eq(:south)
-    end
-
-    it "to :east" do
-      subject.orientation = :east
-      expect(subject.orientation).to eq(:east)
-    end
-
-    it "to :west" do
-      subject.orientation = :west
-      expect(subject.orientation).to eq(:west)
-    end
-
-    it "orientation won't change if unrecognised orientation is given (e.g., :down)" do
-      subject.orientation = :west
-      expect(subject.orientation).to eq(:west)
-      subject.orientation = :down
-      expect(subject.orientation).to eq(:west)
-    end
-
-  end
-
-  context "robocop can move..." do
-
-    it "robocop can move forward" do
-      expect(subject.can_move_forward?).to eq(true)
-    end
-
-    it "moves north if facing north" do
-      subject.orientation = :north
-      old_position = subject.position
-      subject.move_forward!
-      expect(subject.position[:y]).to eq(old_position[:y] + 1)
-      expect(subject.position[:x]).to eq(old_position[:x])
-    end
-
-    it "moves south if facing south" do
-      subject.orientation = :south
-      subject.position = { :y => Melbourne::NORTH_BOUNDARY, :x => Melbourne::WEST_BOUNDARY }
-      old_position = subject.position
-      subject.move_forward!
-      expect(subject.position[:y]).to eq(old_position[:y] - 1)
-      expect(subject.position[:x]).to eq(old_position[:x])
-    end
-
-    it "moves east if facing east" do
-      subject.orientation = :east
-      old_position = subject.position
-      subject.move_forward!
-      expect(subject.position[:y]).to eq(old_position[:y])
-      expect(subject.position[:x]).to eq(old_position[:x] + 1)
-    end
-
-    it "moves west if facing west" do
-      subject.orientation = :west
-      subject.position = { :y => Melbourne::SOUTH_BOUNDARY, :x => Melbourne::EAST_BOUNDARY }
-      old_position = subject.position
-      subject.move_forward!
-      expect(subject.position[:y]).to eq(old_position[:y])
-      expect(subject.position[:x]).to eq(old_position[:x] - 1)
-    end
-  end
-
-  context "You can ask robocop if it can move forward" do
-
-    it "should return false if facing north at La Trobe Street (i.e., the north CBD boundary)" do
-      subject.orientation = :north
-      subject.position = { :y => Melbourne::NORTH_BOUNDARY, :x => Melbourne::EAST_BOUNDARY }
-      expect(subject.can_move_forward?).to eq(false)
-    end
-
-    it "should return false if facing east at Spring Street (i.e., the east CBD boundary)" do
-      subject.orientation = :east
-      subject.position = { :y => Melbourne::NORTH_BOUNDARY, :x => Melbourne::EAST_BOUNDARY }
-      expect(subject.can_move_forward?).to eq(false)
-    end
-
-    it "should return false if facing west at Spencer Street (i.e., the west CBD boundary)" do
-      subject.orientation = :west
-      subject.position = { :y => Melbourne::SOUTH_BOUNDARY, :x => Melbourne::WEST_BOUNDARY }
-      expect(subject.can_move_forward?).to eq(false)
-    end
-
-    it "should return false if facing south at Flinders Street (i.e., the south CBD boundary)" do
-      subject.orientation = :south
-      subject.position = { :y => Melbourne::SOUTH_BOUNDARY, :x => Melbourne::WEST_BOUNDARY }
-      expect(subject.can_move_forward?).to eq(false)
-    end
-
-  # TODO get the name of blocking/ boundary street:
-
-
-    #it "raises an exception if it tries to move outside of the boundary" do
-    #  subject.position = {:y => Location::NORTH_BOUNDARY, :x => Location::EAST_BOUNDARY}
-    #  expect(subject.move_forward).to raise('Trying to move out of bounds.')
-    #end
-
-  end
-
-  context "You can query the street names for robocop's current position" do
 
     it "should return Flinders Street & Swanston Street at robocop's starting position" do
-      expect(subject.streets).to eq(:y => 'Flinders Street', :x => 'Swanston Street')
+      expect(robocop.streets).to eq(:y => 'Flinders Street', :x => 'Swanston Street')
     end
 
     it "should return La Trobe Street & Spring Street at the north-east corner" do
-      subject.position = { :y => Melbourne::NORTH_BOUNDARY, :x => Melbourne::EAST_BOUNDARY }
-      expect(subject.streets).to eq(:y => 'La Trobe Street', :x => 'Spring Street')
+      robocop.position = { :y => Melbourne::NORTH_BOUNDARY, :x => Melbourne::EAST_BOUNDARY }
+      expect(robocop.streets).to eq(:y => 'La Trobe Street', :x => 'Spring Street')
+    end
+
+    it "should beep boop when asked to beep" do
+      expect(robocop.beep).to eq('beep boop')
     end
 
   end
 
-  context "robocop can do other things..." do
+  context "A new Robocop facing north" do
 
-    it "should beep" do
-      expect(subject.beep).to eq('beep boop')
+    let(:robocop) {Robocop.new(Orientation.north_facing_instance)}
+
+    it "should move north when asked to move forward" do
+      old_position = robocop.position
+      robocop.move_forward!
+      expect(robocop.position[:y]).to eq(old_position[:y] + 1)
+      expect(robocop.position[:x]).to eq(old_position[:x])
     end
 
   end
 
-  context "the robocop is facing north" do
+  context "A new Robocop facing south" do
 
-    it "should face east when it's turned right" do
-      subject.orientation = :north
-      subject.turn_right!
-      expect(subject.orientation).to eq(:east)
+    let(:robocop) {Robocop.new(Orientation.south_facing_instance)}
+
+    it "should move south when asked to move forward" do
+      robocop.position = { :y => Melbourne::NORTH_BOUNDARY, :x => Melbourne::WEST_BOUNDARY }
+      old_position = robocop.position
+      robocop.move_forward!
+      expect(robocop.position[:y]).to eq(old_position[:y] - 1)
+      expect(robocop.position[:x]).to eq(old_position[:x])
     end
 
   end
 
-  context "the robocop is facing east" do
+  context "A new Robocop facing east" do
 
-    it "should face south when it's turned right" do
-      subject.orientation = :east
-      subject.turn_right!
-      expect(subject.orientation).to eq(:south)
+    let(:robocop) {Robocop.new(Orientation.east_facing_instance)}
+
+    it "should move east when asked to move forward" do
+      old_position = robocop.position
+      robocop.move_forward!
+      expect(robocop.position[:y]).to eq(old_position[:y])
+      expect(robocop.position[:x]).to eq(old_position[:x] + 1)
     end
 
   end
 
-  context "the robocop is facing south" do
+  context "A new Robocop facing west" do
 
-    it "should face west when it's turned right" do
-      subject.orientation = :south
-      subject.turn_right!
-      expect(subject.orientation).to eq(:west)
+    let(:robocop) {Robocop.new(Orientation.west_facing_instance)}
+
+    it "should move west when asked to move forward" do
+      robocop.position = { :y => Melbourne::SOUTH_BOUNDARY, :x => Melbourne::EAST_BOUNDARY }
+      old_position = robocop.position
+      robocop.move_forward!
+      expect(robocop.position[:y]).to eq(old_position[:y])
+      expect(robocop.position[:x]).to eq(old_position[:x] - 1)
+    end
+
+  end
+
+  context "A new Robocop facing north at La Trobe Street" do
+
+    let(:robocop) {Robocop.new(Orientation.north_facing_instance)}
+
+    it "shouldn't be able to move forward" do
+      robocop.position = { :y => Melbourne::NORTH_BOUNDARY, :x => Melbourne::EAST_BOUNDARY }
+      expect(robocop.can_move_forward?).to eq(false)
+    end
+
+  end
+
+  context "A new Robocop facing east at Spring Street" do
+
+    let(:robocop) {Robocop.new(Orientation.east_facing_instance)}
+
+    it "shouldn't be able to move forward" do
+      robocop.position = { :y => Melbourne::NORTH_BOUNDARY, :x => Melbourne::EAST_BOUNDARY }
+      expect(robocop.can_move_forward?).to eq(false)
+    end
+
+  end
+
+  context "A new Robocop facing west at Spencer Street" do
+
+    let(:robocop) {Robocop.new(Orientation.west_facing_instance)}
+
+    it "shouldn't be able to move forward" do
+      robocop.position = { :y => Melbourne::SOUTH_BOUNDARY, :x => Melbourne::WEST_BOUNDARY }
+      expect(robocop.can_move_forward?).to eq(false)
+    end
+
+  end
+
+  context "A new Robocop facing south at Flinders Street" do
+
+    let(:robocop) {Robocop.new(Orientation.south_facing_instance)}
+
+    it "shouldn't be able to move forward" do
+      robocop.position = { :y => Melbourne::SOUTH_BOUNDARY, :x => Melbourne::WEST_BOUNDARY }
+      expect(robocop.can_move_forward?).to eq(false)
     end
 
   end

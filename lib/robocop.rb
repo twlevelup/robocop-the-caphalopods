@@ -1,11 +1,10 @@
 require_relative 'melbourne'
+require_relative 'orientation'
 
 class Robocop
 
-  ORIENTATIONS = [:north, :south, :east, :west]
-
-  def initialize()
-    @orientation = ORIENTATIONS.first
+  def initialize(orientation = Orientation.north_facing_instance)
+    @orientation = orientation
     @position    = Melbourne::position(:y => 'Flinders Street', :x => 'Swanston Street')
   end
 
@@ -14,9 +13,10 @@ class Robocop
   end
 
   def orientation
-    @orientation
+    @orientation.current
   end
 
+# todo: Refactor this so that it can modify the orientation
   def orientation=(orientation)
     @orientation = orientation if ORIENTATIONS.include?(orientation)
   end
@@ -66,27 +66,7 @@ class Robocop
   end
 
   def turn_right!
-    if @orientation == :north
-      @orientation = :east
-    elsif @orientation == :east
-      @orientation = :south
-    elsif @orientation == :south
-      @orientation = :west
-    elsif @orientation == :west
-      @orientation = :north
-    end
-  end
-
-  def turn_left!
-    if @orientation == :north
-      @orientation = :west
-    elsif @orientation == :east
-      @orientation = :north
-    elsif @orientation == :south
-      @orientation = :east
-    elsif @orientation == :west
-      @orientation = :south
-    end
+    @orientation.turn_right!
   end
 
   private

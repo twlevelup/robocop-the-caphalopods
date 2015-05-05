@@ -9,7 +9,7 @@ class CLIView
 
   def start
 
-    puts "Enter a command or type help for more information."
+    @view_controller.send(:help, nil) { | status | puts status }
 
     loop do
 

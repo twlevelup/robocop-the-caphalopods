@@ -10,6 +10,8 @@ class CLIView
   def start
 
     @view_controller.send(:help, nil) { | status | puts status }
+    puts
+    @view_controller.send(:status, nil) { | status | puts status }
 
     loop do
 

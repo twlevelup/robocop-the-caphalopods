@@ -15,10 +15,6 @@ class CLIView
 
       keyboard_input = Readline.readline("> ", true)
 
-      # Note: readline returns nil when user enters
-      # ctrl-D to quit:
-      break if keyboard_input.nil?
-
       command, *args = keyboard_input.split
 
       # command will be nil if user only entered spaces

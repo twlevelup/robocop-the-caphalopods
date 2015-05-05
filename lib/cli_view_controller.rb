@@ -29,6 +29,9 @@ class CLIViewController
       'status'        => :status,
       's'             => :status,
 
+      'quit'          => :quit,
+      'q'             => :quit,
+
       # TODO add more commands here
   }
 
@@ -110,7 +113,11 @@ class CLIViewController
     # yield " l)eft                - Swivel robot to the left"
     yield " h)elp                - Display this help text"
     yield " s)tatus              - Display robot status"
-    yield " Ctrl-D               - Exit this program"
+    yield " q)uit                - Exit this program"
+  end
+
+  def quit(args)
+    exit
   end
 
   private

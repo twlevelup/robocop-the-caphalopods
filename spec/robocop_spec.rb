@@ -23,10 +23,10 @@ RSpec.describe Robocop do
       expect(robocop.streets).to eq(:y => 'Flinders Street', :x => 'Swanston Street')
     end
 
-    it "should return La Trobe Street & Spring Street at the north-east corner" do
-      robocop.position = { :y => Melbourne::NORTH_BOUNDARY, :x => Melbourne::EAST_BOUNDARY }
-      expect(robocop.streets).to eq(:y => 'La Trobe Street', :x => 'Spring Street')
-    end
+    # it "should return La Trobe Street & Spring Street at the north-east corner" do
+    #   robocop.position = { :y => Melbourne::NORTH_BOUNDARY, :x => Melbourne::EAST_BOUNDARY }
+    #   expect(robocop.streets).to eq(:y => 'La Trobe Street', :x => 'Spring Street')
+    # end
 
   end
 
@@ -43,7 +43,7 @@ RSpec.describe Robocop do
 
   end
 
-  context "A new Robocop facing south" do
+  context "A new Robocop facing south, placed at the North boundary" do
 
     let(:robocop) {Robocop.new(Orientation.south_facing_instance)}
 
@@ -75,7 +75,7 @@ RSpec.describe Robocop do
     let(:robocop) {Robocop.new(Orientation.west_facing_instance)}
 
     it "should move west when asked to move forward" do
-      robocop.position = { :y => Melbourne::SOUTH_BOUNDARY, :x => Melbourne::EAST_BOUNDARY }
+      # robocop.position = { :y => Melbourne::SOUTH_BOUNDARY, :x => Melbourne::EAST_BOUNDARY }
       old_position = robocop.position
       robocop.move_forward!
       expect(robocop.position[:y]).to eq(old_position[:y])

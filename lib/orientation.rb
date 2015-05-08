@@ -48,4 +48,30 @@ class Orientation
     end
   end
 
+  def parallel_axis
+    # Should this go here (or maybe in location module)?
+    case @current
+      when :north, :south then :x
+      when :east,  :west  then :y
+    end
+  end
+
+  def perpendicular_axis
+    # Should this go here (or maybe in location module)?
+    case @current
+      when :north, :south then :y
+      when :east,  :west  then :x
+    end
+  end
+
+  def forward_delta
+    # Should this go here (or maybe in location module)?
+    case @current
+      when :north then {:y =>  1, :x =>  0}
+      when :south then {:y => -1, :x =>  0}
+      when :east  then {:y =>  0, :x =>  1}
+      when :west  then {:y =>  0, :x => -1}
+    end
+  end
+
 end

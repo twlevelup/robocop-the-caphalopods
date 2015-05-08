@@ -1,45 +1,6 @@
-# require_relative "model"
 require_relative "robocop"
 
 class RobocopController
-
-  @@actions = {
-
-      'help'          => :help,
-      'h'             => :help,
-
-      'forward'       => :move_forward,
-      'f'             => :move_forward,
-
-      'right'         => :turn_right,
-      'r'             => :turn_right,
-
-      'left'          => :turn_left,
-      'l'             => :turn_left,
-
-      'add'           => :add_robot,
-      'a'             => :add_robot,
-
-      'choose'        => :select_robot,
-      'c'             => :select_robot,
-
-      'map'           => :display_map,
-      'm'             => :display_map,
-
-      'status'        => :status,
-      's'             => :status,
-
-      'quit'          => :quit,
-      'q'             => :quit,
-
-      # TODO add more commands here
-  }
-
-  @@actions.default   =  :invalid_command
-
-  def actions
-    @@actions
-  end
 
   def initialize
     @cop = Robocop.new
@@ -52,20 +13,8 @@ class RobocopController
   def move_forward (args)
     blocks_to_move_s = args[0] || 1
     blocks_to_move   = blocks_to_move_s.to_i
-
-    if args.length > 1
-      puts "Error: invalid number of arguments (expecting 0 or 1 arguments)."
-      return
-    end
-
-    if (blocks_to_move_s =~ /[^0-9]/) or (blocks_to_move == 0)
-      puts "Error: invalid argument (expecting a positive integer)."
-      return
-    end
-
     blocks_to_move.times do
       if @cop.can_move_forward?
-        # puts "The robot is moving forward..."
         @cop.move_forward!
         # sleep 0.5
         puts "#{_status}"

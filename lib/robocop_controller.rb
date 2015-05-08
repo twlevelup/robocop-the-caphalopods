@@ -37,7 +37,6 @@ class RobocopController
     puts "#{_status}"
   end
 
-
   def go_to (args)
     street_y =  args[0]; street_x = args[1]
     street_y += "reet"    if     street_y.index(/ St$/)

@@ -23,10 +23,10 @@ class Cli
       'quit'          => { :func => :quit,            :args => nil },
       'q'             => { :func => :quit,            :args => nil },
 
-      # TODO add more commands here:
+      'goto'          => { :func => :go_to,           :args => [:string, 2, 2] },
+      'g'             => { :func => :go_to,           :args => [:string, 2, 2] },
 
-      # 'goto'        =>
-      # 'g'           =>
+      # TODO add more commands here:
 
       # 'add'         =>
       # 'a'           =>
@@ -55,23 +55,22 @@ class Cli
 
       keyboard_input = Readline.readline("> ", true)
 
-      command, *args = keyboard_input.split
+      @command, *@args = keyboard_input.split
 
-      next if command.nil?
+      next if @command.nil?
 
-      next if not valid_command_arguments?(command, args)
+      next if not valid_command_arguments?
 
-      @controller.send(@@actions[command][:func], args)
+      @controller.send(@@actions[@command][:func], @args)
 
     end
 
-    puts "Goodbye."
   end
 
-  def valid_command_arguments?(command, args)
+  def valid_command_arguments?
 
-    function_name       = @@actions[command][:func]
-    arg_specs           = @@actions[command][:args]
+    function_name       = @@actions[@command][:func]
+    arg_specs           = @@actions[@command][:args]
 
     expected_arg_type   = arg_specs[0] if arg_specs
 
@@ -84,18 +83,24 @@ class Cli
     # Skip argument checking for unrecognized commands:
     return true if function_name == :invalid_command
 
-    if args.length < expected_args_min || args.length > expected_args_max
-      puts "Error: invalid number of arguments."
-      return false
+    if expected_arg_type == :string
+      @args.each { | arg | arg.capitalize! }
+      @args = @args.join(" ").split(", ")
+      @args.each { | arg | arg.delete!(",.") }
     end
 
     if expected_arg_type == :integer
-      args.each do | arg |
+      @args.each do | arg |
         if (arg =~ /[^0-9]/) or (arg.to_i == 0)
-          puts "Error: invalid argument (expecting a positive integer)."
+          puts "Error: invalid argument/s (expecting positive integer/s)."
           return false
         end
       end
+    end
+
+    if @args.length < expected_args_min || @args.length > expected_args_max
+      puts "Error: invalid number of arguments."
+      return false
     end
 
     return true

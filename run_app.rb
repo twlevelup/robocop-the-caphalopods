@@ -1,4 +1,4 @@
-require_relative "lib/cli_view"
+require_relative "lib/cli"
 
-cli = CLIView.new
+cli = Cli.new
 cli.start

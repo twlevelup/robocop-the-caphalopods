@@ -1,7 +1,7 @@
 # require_relative "model"
 require_relative "robocop"
 
-class CLIViewController
+class RobocopController
 
   @@actions = {
 
@@ -45,80 +45,80 @@ class CLIViewController
     @cop = Robocop.new
   end
 
-  def invalid_command(args)
-    yield "Unrecognized command."
+  def invalid_command (args = nil)
+    puts "Unrecognized command."
   end
 
-  def move_forward(args)
+  def move_forward (args)
     blocks_to_move_s = args[0] || 1
     blocks_to_move   = blocks_to_move_s.to_i
 
     if args.length > 1
-      yield "Error: invalid number of arguments (expecting 0 or 1 arguments)."
+      puts "Error: invalid number of arguments (expecting 0 or 1 arguments)."
       return
     end
 
     if (blocks_to_move_s =~ /[^0-9]/) or (blocks_to_move == 0)
-      yield "Error: invalid argument (expecting a positive integer)."
+      puts "Error: invalid argument (expecting a positive integer)."
       return
     end
 
     blocks_to_move.times do
       if @cop.can_move_forward?
-        # yield "The robot is moving forward..."
+        # puts "The robot is moving forward..."
         @cop.move_forward!
         # sleep 0.5
-        yield "#{_status}"
+        puts "#{_status}"
       else
-        yield "Unable to move forward: robot is at the CBD boundary (#{@cop.perpendicular_street})."
+        puts "Unable to move forward: robot is at the CBD boundary (#{@cop.perpendicular_street})."
         return
       end
     end
   end
 
-  def turn_right(args)
+  def turn_right (args = nil)
     @cop.turn_right!
-    yield "The robot has turned right."
-    yield "#{_status}"
+    puts "The robot has turned right."
+    puts "#{_status}"
   end
 
-  def turn_left(args)
+  def turn_left (args = nil)
     @cop.turn_left!
-    yield "The robot has turned left."
-    yield "#{_status}"
+    puts "The robot has turned left."
+    puts "#{_status}"
   end
 
-  def add_robot(args)
-    yield "We haven't implemented this yet!"
+  def add_robot (args = nil)
+    puts "We haven't implemented this yet!"
   end
 
-  def select_robot(args)
-    yield "We haven't implemented this yet!"
+  def select_robot (args)
+    puts "We haven't implemented this yet!"
   end
 
-  def display_map(args)
-    yield "We haven't implemented this yet!"
+  def display_map (args = nil)
+    puts "We haven't implemented this yet!"
   end
 
-  def beep(args)
-    yield "\"#{@cop.beep}\""
+  def beep (args = nil)
+    puts "\"#{@cop.beep}\""
   end
 
-  def status(args)
-    yield "#{_status}"
+  def status (args = nil)
+    puts "#{_status}"
   end
 
-  def help(args)
-    yield "Usage:"
-    yield " f)orward, f)orward n - Move robot forward by one (or n) block/s"
-    yield " r)ight               - Swivel robot to the right"
-    yield " l)eft                - Swivel robot to the left"
-    yield " h)elp                - Display this help text"
-    yield " s)tatus              - Display robot status"
-    yield " q)uit                - Exit this program"
+  def help (args = nil)
+    puts "Usage:"
+    puts " f)orward, f)orward n - Move robot forward by one (or n) block/s"
+    puts " r)ight               - Swivel robot to the right"
+    puts " l)eft                - Swivel robot to the left"
+    puts " h)elp                - Display this help text"
+    puts " s)tatus              - Display robot status"
+    puts " q)uit                - Exit this program"
   end
 
-  def quit(args)
+  def quit (args = nil)
     exit
   end
 

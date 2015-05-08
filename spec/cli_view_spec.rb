@@ -1,7 +1,7 @@
-require 'cli_view'
+require 'cli'
 
-RSpec.describe CLIView do
-  let(:cli_view) {CLIView.new}
+RSpec.describe Cli do
+  let(:cli) {Cli.new}
 
   # ????
 

@@ -1,8 +1,8 @@
-require 'cli_view_controller'
+require 'robocop_controller'
 require 'robocop'
 
-RSpec.describe CLIViewController do
-  let(:view_controller) {CLIViewController.new}
+RSpec.describe RobocopController do
+  let(:@controller) {RobocopController.new}
 
   #???
 

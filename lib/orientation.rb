@@ -78,7 +78,7 @@ class Orientation
     # Should this really go here?
     case @current
       when :north then '^'
-      when :south then '^'
+      when :south then 'v'
       when :east  then '>'
       when :west  then '<'
     end

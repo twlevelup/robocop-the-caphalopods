@@ -1,4 +1,6 @@
 require_relative "robocop"
+require_relative "melbourne"
+require_relative "map"
 
 class RobocopController
 
@@ -84,7 +86,9 @@ class RobocopController
   end
 
   def display_map (args = nil)
-    puts "We haven't implemented this yet!"
+    cbd_map = Melbourne::map
+    cbd_map.add_robot(@cop.position, @cop.emoji)
+    puts "#{cbd_map}"
   end
 
   def beep (args = nil)

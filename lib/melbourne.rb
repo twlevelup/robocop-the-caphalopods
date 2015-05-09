@@ -1,3 +1,5 @@
+require_relative "map"
+
 module Melbourne
 
   # THE HODDLE (CBD) GRID
@@ -66,4 +68,9 @@ module Melbourne
     return {:y => y, :x => x}
   end
 
+  # return a representation of the grid which
+  # can be converted to a printable string
+  def self.map
+    Map.new(CBD_GRID_HEIGHT, CBD_GRID_WIDTH)
+  end
 end

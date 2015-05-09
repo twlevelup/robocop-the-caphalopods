@@ -48,6 +48,10 @@ class Robocop
     @orientation.turn_left!
   end
 
+  def emoji
+    @orientation.emoji
+  end
+
   private
 
   def next_position

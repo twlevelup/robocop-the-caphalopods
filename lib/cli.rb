@@ -26,6 +26,9 @@ class Cli
       'goto'          => { :func => :go_to,           :args => [:string, 2, 2] },
       'g'             => { :func => :go_to,           :args => [:string, 2, 2] },
 
+      'map'           => { :func => :display_map,      :args => nil },
+      'm'             => { :func => :display_map,      :args => nil },
+
       # TODO add more commands here:
 
       # 'add'         =>
@@ -33,9 +36,6 @@ class Cli
 
       # 'choose'      =>
       # 'c'           =>
-
-      # 'map'         =>
-      # 'm'           =>
   }
 
   @@actions.default   =  { :func => :invalid_command, :args => nil }

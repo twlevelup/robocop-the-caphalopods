@@ -74,4 +74,13 @@ class Orientation
     end
   end
 
+  def emoji
+    case @current
+      when :north then '^'
+      when :south then '^'
+      when :east  then '>'
+      when :west  then '<'
+    end
+  end
+
 end

@@ -9,16 +9,8 @@ class Map
   end
 
   def add_robot (position, emoji)
-
     row = @map[position[:y]]
     row[position[:x]] = emoji
-
-    # puts "position y: #{position[:y]}"
-    # puts "position x: #{position[:x]}"
-    # puts "map[:y]:    #{@map[position[:y]]}"
-    # puts "row:        #{row}"
-    # puts "@map:        #{@map}"
-
   end
 
   def to_s

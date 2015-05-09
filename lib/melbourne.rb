@@ -68,8 +68,7 @@ module Melbourne
     return {:y => y, :x => x}
   end
 
-  # return a representation of the grid which
-  # can be converted to a printable string
+  # return a printable representation of the cbd grid:
   def self.map
     Map.new(CBD_GRID_HEIGHT, CBD_GRID_WIDTH)
   end

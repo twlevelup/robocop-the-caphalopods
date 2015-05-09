@@ -75,6 +75,7 @@ class Orientation
   end
 
   def emoji
+    # Should this really go here?
     case @current
       when :north then '^'
       when :south then '^'

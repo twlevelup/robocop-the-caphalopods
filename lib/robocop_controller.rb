@@ -105,6 +105,7 @@ class RobocopController
     puts "         r)ight               - Swivel robot to the right"
     puts "         l)eft                - Swivel robot to the left"
     puts "         g)oto s1, s2         - Move robot to specified intersection"
+    puts "         m)ap                 - Display map of the CBD grid"
     puts "         h)elp                - Display this help text"
     puts "         s)tatus              - Display robot status"
     puts "         q)uit                - Exit this program"
